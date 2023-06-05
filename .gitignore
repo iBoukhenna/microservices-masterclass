@@ -3,3 +3,4 @@ customer/target/
 fraud/target/
 eureka/target/
 *.iml
+clients/target/

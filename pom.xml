@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
+        <module>clients</module>
         <module>customer</module>
         <module>eureka</module>
         <module>fraud</module>
