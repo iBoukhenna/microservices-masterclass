@@ -2,11 +2,13 @@ package com.dzcode.customer;
 
 import com.dzcode.clients.fraud.FraudCheckResponse;
 import com.dzcode.clients.fraud.FraudClient;
+import com.dzcode.clients.notification.NotificationClient;
+import com.dzcode.clients.notification.NotificationRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public record CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient) {
+public record CustomerService(CustomerRepository customerRepository, NotificationClient notificationClient, FraudClient fraudClient) {
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder().firstName(request.firstName())
@@ -18,10 +20,14 @@ public record CustomerService(CustomerRepository customerRepository, RestTemplat
 
         FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
         // todo : send notification
-        if (fraudCheckResponse.isFraudster()) {
-            throw new IllegalStateException("fraudster");
-        }
-
+        notificationClient.sendNotification(
+            new NotificationRequest(
+                    customer.getId(),
+                    customer.getEmail(),
+                    String.format("Hi %s, welcome to Microservices...",
+                            customer.getFirstName())
+            )
+        );
     }
 
 }
