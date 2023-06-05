@@ -5,7 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+
+@SpringBootApplication(
+    scanBasePackages = {
+            "com.dzcode.customer",
+            "com.dzcode.amqp",
+    }
+)
 @EnableEurekaClient
 @EnableFeignClients(
         basePackages = "com.dzcode.clients"
